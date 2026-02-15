@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For My Forever 💕</title>
+<title>For My Melting Heart 💖</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
 
@@ -13,14 +13,21 @@ body {
     overflow: hidden;
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg, #ffd6e8, #ffeaf4, #ffc2d1);
-    animation: bgMove 10s infinite alternate;
     text-align: center;
     color: #ff4f81;
 }
 
-@keyframes bgMove {
-    0% { background-position: left; }
-    100% { background-position: right; }
+/* Floating soft hearts */
+.bg-heart {
+    position: absolute;
+    font-size: 18px;
+    opacity: 0.3;
+    animation: floatBg 15s linear infinite;
+}
+
+@keyframes floatBg {
+    0% { transform: translateY(100vh); }
+    100% { transform: translateY(-10vh); }
 }
 
 .card {
@@ -30,7 +37,7 @@ body {
     max-width: 600px;
     margin: auto;
     padding: 30px;
-    background: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.75);
     backdrop-filter: blur(15px);
     border-radius: 25px;
     box-shadow: 0 10px 30px rgba(255,105,180,0.3);
@@ -42,7 +49,7 @@ h1 {
 }
 
 button {
-    padding: 10px 20px;
+    padding: 12px 22px;
     border: none;
     border-radius: 25px;
     cursor: pointer;
@@ -56,6 +63,17 @@ button {
 button:hover {
     transform: scale(1.1);
     background: #ff2e6f;
+}
+
+/* Special glowing song button */
+.song-btn {
+    background: linear-gradient(45deg, #ff4f81, #ff9ec4);
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    from { box-shadow: 0 0 10px #ff4f81; }
+    to { box-shadow: 0 0 25px #ff2e6f; }
 }
 
 .game-area {
@@ -77,18 +95,6 @@ button:hover {
     100% { top: -10%; }
 }
 
-.bg-heart {
-    position: absolute;
-    font-size: 18px;
-    opacity: 0.3;
-    animation: floatBg 15s linear infinite;
-}
-
-@keyframes floatBg {
-    0% { transform: translateY(100vh); }
-    100% { transform: translateY(-10vh); }
-}
-
 .hidden-message {
     display: none;
     font-size: 1.3rem;
@@ -101,35 +107,35 @@ button:hover {
 <body>
 
 <div class="card">
-    <h1>I'm So Sorry My Love 💖</h1>
+    <h1>I'm so in love with you... 💖</h1>
     <p>
-        I miss you every single second.  
-        My heart only beats your name.  
-        Please let me make you smile again 🥺💕
+        Every time I hear this song, I think of you.  
+        My heart is literally melting for you.  
+        I miss you more than anything 🥺💕
+        And sorry for not being able to express my feelings in words,
+        but I hope this little game and song can show you how much I care about you.
     </p>
 
-    <button onclick="startGame()">Play Our Little Love Game 🎮</button>
-    <button onclick="toggleMusic()">Turn On Our Song 🎵</button>
+    <button class="song-btn" onclick="playSong()">Play Our Song 🎵</button>
+    <button onclick="startGame()">Play Love Game 🎮</button>
 
     <div id="score"></div>
     <div class="game-area" id="gameArea"></div>
 
     <div class="hidden-message" id="hiddenMessage">
-        You caught all my love 💕  
-        I promise to love you endlessly, forever and always 🥰  
-        I miss you more than words can ever explain 💖
+        Just like this song...  
+        My heart melts for you every single day 💕  
+        I love you endlessly.
     </div>
 </div>
 
-<!-- LOCAL LOVE SONG -->
-<audio id="bgMusic" loop>
-    <source src="love.mp3" type="audio/mpeg">
-</audio>
-
 <script>
+function playSong() {
+    window.open("https://open.spotify.com/track/6RiiSy9GzSwiyDEJDiMuKe", "_blank");
+}
+
 let score = 0;
 let totalHearts = 10;
-let musicStarted = false;
 
 function startGame() {
     score = 0;
@@ -160,29 +166,7 @@ function startGame() {
     }
 }
 
-function toggleMusic() {
-    const music = document.getElementById("bgMusic");
-
-    if (music.paused) {
-        music.volume = 0;
-        music.play();
-        musicStarted = true;
-
-        // Smooth fade in
-        let fade = setInterval(() => {
-            if (music.volume < 0.9) {
-                music.volume += 0.05;
-            } else {
-                clearInterval(fade);
-            }
-        }, 200);
-
-    } else {
-        music.pause();
-    }
-}
-
-/* Floating aesthetic background hearts */
+/* Floating background hearts */
 function createBgHeart() {
     const heart = document.createElement("div");
     heart.classList.add("bg-heart");
@@ -198,17 +182,6 @@ function createBgHeart() {
 }
 
 setInterval(createBgHeart, 800);
-
-/* Allow music to start after ANY click on page */
-document.addEventListener("click", function() {
-    if (!musicStarted) {
-        const music = document.getElementById("bgMusic");
-        music.volume = 0.3;
-        music.play().catch(() => {});
-        musicStarted = true;
-    }
-}, { once: true });
-
 </script>
 
 </body>
