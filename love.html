@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Forever 💕</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ffd6e8, #ffeaf4, #ffc2d1);
+    animation: bgMove 10s infinite alternate;
+    text-align: center;
+    color: #ff4f81;
+}
+
+@keyframes bgMove {
+    0% { background-position: left; }
+    100% { background-position: right; }
+}
+
+.card {
+    position: relative;
+    top: 60px;
+    width: 90%;
+    max-width: 600px;
+    margin: auto;
+    padding: 30px;
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(15px);
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(255,105,180,0.3);
+}
+
+h1 {
+    font-family: 'Pacifico', cursive;
+    font-size: 3rem;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    margin: 10px;
+    font-size: 1rem;
+    background: #ff4f81;
+    color: white;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.1);
+    background: #ff2e6f;
+}
+
+.game-area {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    margin-top: 20px;
+}
+
+.heart {
+    position: absolute;
+    font-size: 28px;
+    cursor: pointer;
+    animation: float 5s linear infinite;
+}
+
+@keyframes float {
+    0% { top: 100%; }
+    100% { top: -10%; }
+}
+
+.bg-heart {
+    position: absolute;
+    font-size: 18px;
+    opacity: 0.3;
+    animation: floatBg 15s linear infinite;
+}
+
+@keyframes floatBg {
+    0% { transform: translateY(100vh); }
+    100% { transform: translateY(-10vh); }
+}
+
+.hidden-message {
+    display: none;
+    font-size: 1.3rem;
+    margin-top: 15px;
+    color: #ff2e6f;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <h1>I'm So Sorry My Love 💖</h1>
+    <p>
+        I miss you every single second.  
+        My heart only beats your name.  
+        Please let me make you smile again 🥺💕
+    </p>
+
+    <button onclick="startGame()">Play Our Little Love Game 🎮</button>
+    <button onclick="toggleMusic()">Turn On Our Song 🎵</button>
+
+    <div id="score"></div>
+    <div class="game-area" id="gameArea"></div>
+
+    <div class="hidden-message" id="hiddenMessage">
+        You caught all my love 💕  
+        I promise to love you endlessly, forever and always 🥰  
+        I miss you more than words can ever explain 💖
+    </div>
+</div>
+
+<!-- LOCAL LOVE SONG -->
+<audio id="bgMusic" loop>
+    <source src="love.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+let score = 0;
+let totalHearts = 10;
+let musicStarted = false;
+
+function startGame() {
+    score = 0;
+    document.getElementById("score").innerText = "Catch 10 hearts 💖 | Score: 0";
+    document.getElementById("hiddenMessage").style.display = "none";
+    const gameArea = document.getElementById("gameArea");
+    gameArea.innerHTML = "";
+
+    for (let i = 0; i < totalHearts; i++) {
+        let heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "💖";
+        heart.style.left = Math.random() * 90 + "%";
+        heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+
+        heart.onclick = function () {
+            score++;
+            heart.remove();
+            document.getElementById("score").innerText =
+                "Catch 10 hearts 💖 | Score: " + score;
+
+            if (score === totalHearts) {
+                document.getElementById("hiddenMessage").style.display = "block";
+            }
+        };
+
+        gameArea.appendChild(heart);
+    }
+}
+
+function toggleMusic() {
+    const music = document.getElementById("bgMusic");
+
+    if (music.paused) {
+        music.volume = 0;
+        music.play();
+        musicStarted = true;
+
+        // Smooth fade in
+        let fade = setInterval(() => {
+            if (music.volume < 0.9) {
+                music.volume += 0.05;
+            } else {
+                clearInterval(fade);
+            }
+        }, 200);
+
+    } else {
+        music.pause();
+    }
+}
+
+/* Floating aesthetic background hearts */
+function createBgHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("bg-heart");
+    heart.innerHTML = "💗";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 20 + 10) + "px";
+    heart.style.animationDuration = (Math.random() * 10 + 10) + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 15000);
+}
+
+setInterval(createBgHeart, 800);
+
+/* Allow music to start after ANY click on page */
+document.addEventListener("click", function() {
+    if (!musicStarted) {
+        const music = document.getElementById("bgMusic");
+        music.volume = 0.3;
+        music.play().catch(() => {});
+        musicStarted = true;
+    }
+}, { once: true });
+
+</script>
+
+</body>
+</html>
